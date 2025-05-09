@@ -1,6 +1,5 @@
 import GenreCard from "@/components/genreCard";
 import Layout from "@/components/layout";
-import { getAllGenres } from "@/lib/movieFunctions";
 export default function Genres({genres}){
     return (
         <Layout>
@@ -13,7 +12,7 @@ export default function Genres({genres}){
     );
 }
 export async function getServerSideProps() {
-  const genres = await getAllGenres();
+  const genres = await fetch('http://localhost:3000/api/genres').then(res=>res.json());
 if(!genres){
     return{
         notFound:true,

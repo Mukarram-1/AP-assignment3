@@ -1,10 +1,6 @@
 import { useRouter } from "next/router";
 import Layout from "../components/layout";
 import MovieCard from "../components/movieCard";
-import {
-  getTrendingMovies,
-  getAllGenres,
-} from "@/lib/movieFunctions";
 import { Star, Search, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -64,8 +60,8 @@ export default function Home({ trendingMovies }) {
   );
 }
 export async function getStaticProps() {
-  const trendingMovies = await getTrendingMovies();
-  const genres = await getAllGenres();
+  const trendingMovies = await fetch('http://localhost:3000/api/movies/trending').then(res=>res.json());
+  const genres = await fetch('http://localhost:3000/api/genres').then(res=>res.json());
 
   if (!trendingMovies || !genres) {
     return {

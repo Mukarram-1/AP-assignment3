@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Layout from "@/components/layout";
 import {
-  getMovieById,
-  getDirectorById,
   getMoviesByDirector,
 } from "@/lib/movieFunctions";
 
@@ -63,14 +61,14 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  const movie =await getMovieById(context.params.id);
+  const movie =await fetch(`http://localhost:3000/api/movies/${context.params.id}`).then(res=>res.json());
   if (!movie) {
     return {
       notFound: true,
     };
   }
 
-  const director =await getDirectorById(movie.directorId);
+  const director =await fetch(`http://localhost:3000/api/directors/${movie.directorId}`).then(res=>res.json());
 
   if (!director) {
     return {

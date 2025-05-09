@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { getMoviesByGenre } from "@/lib/movieFunctions";
 import { Film, ArrowRight } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+
 const genreColors = {
   "Science Fiction": "from-blue-500 to-purple-600",
   Adventure: "from-green-500 to-teal-600",
@@ -8,10 +9,20 @@ const genreColors = {
   Thriller: "from-gray-700 to-gray-900",
 };
 
+const darkModeGenreColors = {
+  "Science Fiction": "from-blue-800 to-purple-900",
+  Adventure: "from-green-800 to-teal-900",
+  Drama: "from-orange-800 to-red-900",
+  Thriller: "from-gray-800 to-black",
+};
+
 export default function GenreCard({ genre }) {
-  const genreMovies = getMoviesByGenre(genre.id);
-  const gradientColor =
-    genreColors[genre.name] || "from-indigo-500 to-purple-600";
+  const genreMovies = genre.movies || [];
+  const { darkMode } = useTheme();
+  
+  const gradientColor = darkMode 
+    ? (darkModeGenreColors[genre.name] || "from-indigo-800 to-purple-900")
+    : (genreColors[genre.name] || "from-indigo-500 to-purple-600");
 
   return (
     <div

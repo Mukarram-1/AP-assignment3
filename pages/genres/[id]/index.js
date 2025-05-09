@@ -1,6 +1,5 @@
 import Layout from "@/components/layout";
 import MovieCard from "@/components/movieCard";
-import { getGenreById, getMoviesByGenre } from "@/lib/movieFunctions";
 
 export default function GenreDetails({ genre, movies }) {
   if (!genre) {
@@ -30,13 +29,13 @@ export default function GenreDetails({ genre, movies }) {
   );
 }
 export async function getServerSideProps(context){
-    const genre = await getGenreById(context.params.id);
+    const genre = await fetch(`http://localhost:3000/api/genres/${context.params.id}`).then(res=>res.json());
     if (!genre) {
       return {
         notFound: true,
       };
     }
-    const movies = await getMoviesByGenre(context.params.id);
+    const movies = await fetch(`http://localhost:3000/api/genres/${context.params.id}/movies`).then(res=>res.json());
     return{
         props:{
             genre,

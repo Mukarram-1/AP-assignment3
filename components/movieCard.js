@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getGenreById, getDirectorById } from "../lib/movieFunctions";
+import { useTheme } from "@/context/ThemeContext";
 import { Star, Clock, User } from "lucide-react";
-export default function MovieCard({ movie }) {
-  const genre = getGenreById(movie.genreId);
-  const director = getDirectorById(movie.directorId);
+
+export default function MovieCard({ movie, genreName, directorName }) {
+  const { darkMode } = useTheme();
+  
   return (
-    <div className="bg-card rounded-xl overflow-hidden shadow-lg card-hover">
+    <div className="bg-card rounded-xl overflow-hidden shadow-lg card-hover dark:bg-gray-800 dark:text-gray-100">
       <div className="relative h-48">
         <Image
           src={movie.imageUrl || "/placeholder.svg"}
@@ -22,29 +23,29 @@ export default function MovieCard({ movie }) {
       </div>
 
       <div className="p-4">
-        <h2 className="text-xl font-bold mb-1 text-card-foreground">
+        <h2 className="text-xl font-bold mb-1 text-card-foreground dark:text-white">
           {movie.title}
         </h2>
 
-        <div className="flex items-center text-muted-foreground text-sm mb-3">
+        <div className="flex items-center text-muted-foreground text-sm mb-3 dark:text-gray-400">
           <Clock className="h-4 w-4 mr-1" />
           <span>{movie.releaseYear}</span>
           <span className="mx-2">•</span>
-          <span>{genre?.name || "Unknown Genre"}</span>
+          <span>{genreName || "Unknown Genre"}</span>
         </div>
 
-        <p className="text-card-foreground/80 mb-3 line-clamp-2 text-sm">
+        <p className="text-card-foreground/80 mb-3 line-clamp-2 text-sm dark:text-gray-300">
           {movie.description}
         </p>
 
-        <div className="flex items-center text-muted-foreground text-sm mb-3">
+        <div className="flex items-center text-muted-foreground text-sm mb-3 dark:text-gray-400">
           <User className="h-4 w-4 mr-1" />
-          <span>{director?.name || "Unknown Director"}</span>
+          <span>{directorName || "Unknown Director"}</span>
         </div>
 
         <Link
           href={`/movies/${movie.id}`}
-          className="inline-block bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+          className="inline-block bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors dark:bg-blue-700 dark:hover:bg-blue-800"
         >
           View Details
         </Link>

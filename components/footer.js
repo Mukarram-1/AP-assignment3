@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { Film, Mail, Github, Twitter } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function Footer() {
+  const { darkMode } = useTheme();
+  
   return (
-    <footer className="bg-gradient-to-r from-indigo-900 to-purple-900 text-white py-8 mt-12">
+    <footer className={`${darkMode ? 'bg-gray-900' : 'bg-gradient-to-r from-indigo-900 to-purple-900'} text-white py-8 mt-12`}>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">

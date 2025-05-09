@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { getAllMovies, getAllGenres } from "@/lib/movieFunctions";
 import Layout from "@/components/layout";
 import MovieCard from "@/components/movieCard";
 
@@ -44,8 +43,10 @@ export default function Movies({ movies, genres }) {
 }
 
 export async function getStaticProps() {
-  const movies =await getAllMovies();
-  const genres =await getAllGenres();
+  const movies = await fetch('http://localhost:3000/api/movies').then(res=>res.json());
+  const genres = await fetch("http://localhost:3000/api/genres").then((res) =>
+    res.json()
+  );
   if(!movies || !genres){
     return{
         notFound:true,

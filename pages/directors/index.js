@@ -1,9 +1,8 @@
 import useSWR from "swr";
 import Layout from "@/components/layout";
 import DirectorCard from "@/components/directorCard";
-const { getAllDirectors } = await import("@/lib/movieFunctions");
 const fetcher = async () => {
-  return await getAllDirectors();
+  return await fetch('http://localhost:3000/api/directors').then(res=>res.json());
 };
 
 export default function Directors() {

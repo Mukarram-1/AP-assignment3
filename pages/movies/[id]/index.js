@@ -1,11 +1,4 @@
 import Layout from "@/components/layout";
-import {
-  getAllMovies,
-  getDirectorById,
-  getMovieById,
-  getGenreById,
-  getMoviesByGenre,
-} from "@/lib/movieFunctions";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
@@ -120,7 +113,7 @@ export default function MovieDetail({ movie, director, genre }) {
   );
 }
 export async function getStaticPaths() {
-  const movies =await getAllMovies();
+  const movies =await fetch('http://localhost:3000/api/movies').then(res=>res.json());
   if (!movies) {
     return {
       notFound: true,
@@ -137,7 +130,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   const movieId = context.params.id;
-  const movie = await getMovieById(movieId);
+  const movie = await fetch(`http://localhost:3000/api/movies/${movieId}`).then(res=>res.json());
 
   if (!movie) {
     return {
@@ -145,8 +138,8 @@ export async function getStaticProps(context) {
     };
   }
 
-  const director = await getDirectorById(movie.directorId);
-  const genre = await getGenreById(movie.genreId);
+  const director = await fetch(`http://localhost:3000/api/directors/${movie.directorId}`).then(res=>res.json());
+  const genre = await fetch(`http://localhost:3000/api/genres/${movie.genreId}`).then(res=>res.json());
   return {
     props: {
       movie,
